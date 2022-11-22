@@ -13,8 +13,9 @@ import javax.swing.SwingUtilities;
 /**
  * Second example of reactive GUI.
  */
-public final class ConcurrentGUI extends JFrame {
+public class ConcurrentGUI extends JFrame {
 
+    private static final long serialVersionUID = 1L;
     private static final double WIDTH_PERC = 0.2;
     private static final double HEIGHT_PERC = 0.1;
     private final JLabel display = new JLabel();
@@ -54,12 +55,12 @@ public final class ConcurrentGUI extends JFrame {
         public void run() {
             while (!this.stop) {
                 try {
-                    String nextText = Integer.toString(this.count);
+                    final String nextText = Integer.toString(this.count);
                     SwingUtilities.invokeAndWait(() -> ConcurrentGUI.this.display.setText(nextText));
                     Thread.sleep(100);
                     this.count = countDown ? this.count - 1 : this.count + 1;
                 } catch (InterruptedException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    e.printStackTrace(); //NOPMD just an exercise
                 }
             }
         }
